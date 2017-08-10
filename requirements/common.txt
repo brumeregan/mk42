@@ -40,6 +40,7 @@ django-js-reverse==0.7.3
 django-bower==5.2.0
 django-compressor==2.1.1
 django-admin-env-notice==0.1.4
+django-webpack-loader==0.5.0
 
 # from VCS
 

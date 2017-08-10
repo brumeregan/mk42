@@ -102,6 +102,7 @@ INSTALLED_APPS = [
     "django_js_reverse",
     "djangobower",
     "compressor",
+    "webpack_loader",
     # mk42 libs
     # mk42
     "mk42.apps.users",
@@ -298,6 +299,10 @@ ROBOTS_USE_SITEMAP = True
 
 # cors settings
 CORS_URLS_REGEX = r"/.*?/api/.*?$"
+CORS_ORIGIN_WHITELIST = (
+    "localhost:8080",
+    "127.0.0.1:8080"
+)
 
 # default protocol
 URL_PROTOCOL = "http:"
@@ -332,3 +337,10 @@ with open(os.path.join(BASE_DIR, "requirements/static.txt").replace("\\", "/")) 
 # compressor settings
 COMPRESS_ENABLED = False
 COMPRESS_OFFLINE = False
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}

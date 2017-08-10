@@ -1,6 +1,7 @@
 {# mk42 #}
 {# mk42/templates/base.html #}
 
+{% load render_bundle from webpack_loader %}
 {% load i18n %}
 {% load static %}
 
@@ -28,16 +29,21 @@
         {% endblock %}
     </head>
     <body>
+          {% csrf_token %}
         {% block noscript %}
             {% include "mk42/includes/noscript.html" %}
         {% endblock %}
         {% block header %}{% endblock %}
-        {% block content %}{% endblock %}
+        {% block content %}
+            <div id="app"></div>
+            {% render_bundle 'main' %}
+        {% endblock %}
         {% block footer %}{% endblock %}
         {% block js %}
             {% include "mk42/includes/meta/static/js.html" %}
         {% endblock %}
         {# tracking codes #}
         {% sitemetrics %}
+
     </body>
 </html>
