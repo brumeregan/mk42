@@ -73,7 +73,7 @@ class GroupViewSet(ModelViewSet):
         :rtype: rest_framework.response.Response.
         """
 
-        queryset = self.filter_queryset(queryset=Group.objects.filter(owner=request.user))
+        queryset = self.filter_queryset(queryset=request.user.owned.all() if request.user.is_authenticated else Group.objects.none())
         page = self.paginate_queryset(queryset)
 
         if page is not None:
@@ -135,7 +135,7 @@ class GroupViewSet(ModelViewSet):
 
         return Response(serializer.data)
 
-    @list_route(methods=[GET, ])
+    @list_route(methods=[GET, ], url_path="my/active")
     def my__active(self, request, **kwargs):
         """
         Return only active user owned groups.
@@ -148,7 +148,7 @@ class GroupViewSet(ModelViewSet):
         :rtype: rest_framework.response.Response.
         """
 
-        queryset = self.filter_queryset(queryset=Group.objects.filter(owner=request.user).active())
+        queryset = self.filter_queryset(queryset=request.user.owned.active() if request.user.is_authenticated else Group.objects.none())
         page = self.paginate_queryset(queryset)
 
         if page is not None:
@@ -160,7 +160,7 @@ class GroupViewSet(ModelViewSet):
 
         return Response(serializer.data)
 
-    @list_route(methods=[GET, ])
+    @list_route(methods=[GET, ], url_path="my/inactive")
     def my__inactive(self, request, **kwargs):
         """
         Return only inactive user owned groups.
@@ -173,7 +173,7 @@ class GroupViewSet(ModelViewSet):
         :rtype: rest_framework.response.Response.
         """
 
-        queryset = self.filter_queryset(queryset=Group.objects.filter(owner=request.user).inactive())
+        queryset = self.filter_queryset(queryset=request.user.owned.inactive() if request.user.is_authenticated else Group.objects.none())
         page = self.paginate_queryset(queryset)
 
         if page is not None:

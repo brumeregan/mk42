@@ -68,7 +68,7 @@ class MembershipViewSet(ModelViewSet):
         :rtype: rest_framework.response.Response.
         """
 
-        queryset = self.filter_queryset(queryset=Membership.objects.filter(user=request.user))
+        queryset = self.filter_queryset(queryset=request.user.membership.all() if request.user.is_authenticated else Membership.objects.none())
         page = self.paginate_queryset(queryset)
 
         if page is not None:
@@ -130,7 +130,7 @@ class MembershipViewSet(ModelViewSet):
 
         return Response(serializer.data)
 
-    @list_route(methods=[GET, ])
+    @list_route(methods=[GET, ], url_path="my/active")
     def my__active(self, request, **kwargs):
         """
         Return only active user memberships.
@@ -143,7 +143,7 @@ class MembershipViewSet(ModelViewSet):
         :rtype: rest_framework.response.Response.
         """
 
-        queryset = self.filter_queryset(queryset=Membership.objects.filter(user=request.user).active())
+        queryset = self.filter_queryset(queryset=request.user.membership.active() if request.user.is_authenticated else Membership.objects.none())
         page = self.paginate_queryset(queryset)
 
         if page is not None:
@@ -155,7 +155,7 @@ class MembershipViewSet(ModelViewSet):
 
         return Response(serializer.data)
 
-    @list_route(methods=[GET, ])
+    @list_route(methods=[GET, ], url_path="my/inactive")
     def my__inactive(self, request, **kwargs):
         """
         Return only inactive user memberships.
@@ -168,7 +168,7 @@ class MembershipViewSet(ModelViewSet):
         :rtype: rest_framework.response.Response.
         """
 
-        queryset = self.filter_queryset(queryset=Membership.objects.filter(user=request.user).inactive())
+        queryset = self.filter_queryset(queryset=request.user.membership.inactive() if request.user.is_authenticated else Membership.objects.none())
         page = self.paginate_queryset(queryset)
 
         if page is not None:

@@ -5,6 +5,11 @@
 
 {% load compress %}
 
+{# django generated js #}
+<script type="text/javascript" src="{% url "jsi18n" %}"></script>
+<script type="text/javascript" src="{% url "js-reverse" %}"></script>
+
+
 {# HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries #}
 <!--[if lt IE 9]>
     {% compress js %}
